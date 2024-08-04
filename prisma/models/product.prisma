@@ -1,0 +1,16 @@
+model Product {
+  id                            Int       @id @default(autoincrement())
+  productName                   String
+  productDescription            String
+  productFeature                String  
+  productSize                   String 
+  productUnit                   Int
+  productInventoryLevel         Int
+  productUnitPrice              Int
+  productPriceCurrency          String
+  productInventoryThreshold     Int
+  productImageUrl               String
+  manuId                        Int
+  manufacturer                  Manufacturer   @relation(fields: [manuId], references: [id])
+ 
+}

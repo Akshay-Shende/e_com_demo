@@ -1,0 +1,56 @@
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Manufacturer{
+  id                          Int       @id @default(autoincrement())
+  ManufacturerName            String
+  ManufacturerDescription     String
+  ManuCity                    String   
+  ManuGrade                   String 
+  ManuCountry                 String
+  products                    Product[]
+ 
+}
+
+model Product {
+  id                            Int       @id @default(autoincrement())
+  productName                   String
+  productDescription            String
+  productFeature                String  
+  productSize                   String 
+  productUnit                   Int
+  productInventoryLevel         Int
+  productUnitPrice              Int
+  productPriceCurrency          String
+  productInventoryThreshold     Int
+  productImageUrl               String
+  manuId                        Int
+  manufacturer                  Manufacturer   @relation(fields: [manuId], references: [id])
+ 
+}
+
+model Role {
+  id       Int       @id @default(autoincrement())
+  roleName      String
+  roleCode      String
+  users         User[]
+  
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  emailId        String    @unique
+  contactNumber  String 
+  password       String
+  roleId         Int
+  role           Role     @relation(fields: [roleId], references: [id])
+}

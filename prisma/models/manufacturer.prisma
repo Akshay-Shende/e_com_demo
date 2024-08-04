@@ -1,0 +1,10 @@
+model Manufacturer{
+  id                          Int       @id @default(autoincrement())
+  ManufacturerName            String
+  ManufacturerDescription     String
+  ManuCity                    String   
+  ManuGrade                   String 
+  ManuCountry                 String
+  products                    Product[]
+ 
+}
