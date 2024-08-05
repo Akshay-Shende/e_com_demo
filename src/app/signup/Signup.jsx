@@ -1,20 +1,11 @@
-import React, { useState } from "react";
-import { userRepository } from "@/repositories/userRepository";
+"use client";
+import React, { useEffect, useState } from "react";
+import signupUser from "@/frontendServices/userServices";
+import getRoles from "@/frontendServices/roleServices";
 import { toast } from "react-toastify";
-
-const resetForm = () => {
-  setUser({
-    firstName: "",
-    lastName: "",
-    emailId: "",
-    contactNumber: "",
-    password: "",
-    roleId: "",
-  });
-};
-
-const Signup = () => {
-  const [user,setUser] = useState({
+const signup = () => {
+  const [roles, setRoles] = useState([]);
+  const [data, setData] = useState({
     firstName: "",
     lastName: "",
     emailId: "",
@@ -23,159 +14,182 @@ const Signup = () => {
     roleId: "",
   });
 
-  const signUpComponent = async (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    const getRoleInUseEffect = async () => {
+      const roles = await getRoles();
 
-    console.log(event);
-    console.log(data);
+      setRoles(roles);
+    };
+    getRoleInUseEffect();
+  }, []);
+  const submitForm = async () => {
     try {
-      const createdUser = await userRepository.create(user);
+      const createdUser = await signupUser(data);
       console.log(createdUser);
-
-      toast.success("User is registered !!", {
-        position: "top-center",
-      });
-
-      setUser({
-        firstName: "",
-        lastName: "",
-        emailId: "",
-        contactNumber: "",
-        password: "",
-        roleId: "",
-      });
-    } catch (error) {
-      console.log(error);
-      console.log(error.response.data.message);
-      toast.error("Signup Error !! " + error.response.data.message, {
-        position: "top-center",
-      });
+      toast.success(`we are here`,{
+        position : "top-center"
+      })
+     return;
+  
+    } catch (error) {  
+        toast.error("Signup Error !! ", {
+          position: "top-center",
+        });  
+        return;
     }
   };
   return (
-    <body class="bg-gray-100 flex items-center justify-center h-screen">
-      <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 class="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-gray-900">Sign Up</h2>
         <form>
-          <div class="mb-4">
+          <div className="mb-4">
             <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="firstName"
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="firstName"
             >
-              FirstName
+              First Name
             </label>
             <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              type="text"
-              placeholder="Username"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="firstName"
-              onChange={(event) => {
-                setUser({ ...user, firstName: event.target.value });
-              }}
-            />
-          </div>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="lastName"
-            >
-              LastName
-            </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
               type="text"
-              placeholder="Username"
-              name="lastName"
+              placeholder="Your first name"
               onChange={(event) => {
-                setUser({ ...user, lastName: event.target.value });
+                setData({
+                  ...data,
+                  firstName: event.target.value,
+                });
               }}
+              value={data.firstName}
             />
           </div>
-          <div class="mb-4">
+          <div className="mb-4">
             <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="email"
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="lastName"
             >
-              EmailId
+              Last Name
             </label>
             <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
-              type="email"
-              placeholder="Email"
-              name="emailId"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="lastName"
+              type="text"
+              placeholder="Your last name"
               onChange={(event) => {
-                setUser({ ...user, emailId: event.target.value });
+                setData({
+                  ...data,
+                  lastName: event.target.value,
+                });
               }}
+              value={data.lastName}
             />
           </div>
-          <div class="mb-4">
+          <div className="mb-4">
             <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="contact-number"
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="emailId"
+            >
+              Email
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="emailId"
+              type="email"
+              placeholder="Your email"
+              onChange={(event) => {
+                setData({
+                  ...data,
+                  emailId: event.target.value,
+                });
+              }}
+              value={data.emailId}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="contactNumber"
             >
               Contact Number
             </label>
             <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type="password"
-              placeholder="Password"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="contactNumber"
+              type="text"
+              placeholder="Your contact number"
               onChange={(event) => {
-                setUser({ ...user, contactNumber: event.target.value });
+                setData({
+                  ...data,
+                  contactNumber: event.target.value,
+                });
               }}
+              value={data.contactNumber}
             />
           </div>
-          <div class="mb-4">
+          <div className="mb-4">
             <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="password"
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="password"
             >
               Password
             </label>
             <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type="password"
-              placeholder="Password"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="password"
+              type="password"
+              placeholder="Your password"
               onChange={(event) => {
-                setUser({ ...user, password: event.target.value });
+                setData({
+                  ...data,
+                  password: event.target.value,
+                });
               }}
+              value={data.password}
             />
           </div>
-          <div class="mb-4">
+          <div className="mb-4">
             <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="role-id"
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="roleId"
             >
-              Role Id
+              Role
             </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type="text"
-              placeholder="Select Role Id"
-              name="roleId"
+            <select
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="roleId"
+              type = "number"
+              value={data.roleId}
               onChange={(event) => {
-                setUser({ ...user, roleId: event.target.value });
+                setData({
+                  ...data,
+                  roleId: Number(event.target.value),
+                });
               }}
-            />
+            >
+              <option value="" disabled selected>
+                Select a role
+              </option>
+              {roles.map((role) => (
+                <option key={role.id} value={role.id}>
+                  {role.roleName}
+                </option>
+              ))}
+            </select>
           </div>
-          <div class="flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
+              onClick={submitForm}
             >
               Sign Up
             </button>
           </div>
         </form>
       </div>
-    </body>
+    </div>
   );
 };
-export default Signup;
+
+export default signup;
