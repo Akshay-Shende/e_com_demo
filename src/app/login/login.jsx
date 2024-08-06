@@ -1,26 +1,34 @@
+"use client"
 import { loginUser } from '@/frontendServices/userServices'
 import { toast } from "react-toastify";
-import React, { useState } from 'react'
+import { LoadingContext } from '@/context/LoadingContext';
+import React, { useState, useContext } from 'react'
+import Loading from './loading';
+import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
+  const router  = useRouter();
+  const { loading, setLoading } = useContext(LoadingContext);
     const [login,setLogin] = useState({
         email : "",
         password: ""
     })
 
     const loginUserData = async() =>{
-        await new Promise((resolve)=> setTimeout(resolve,3000))
+      setLoading(true)
       const userData =  await loginUser(login);
-
-      toast.success(userData.message,{
-        position : "top-center"
-      })
+      setLoading(false)
+      router.push('/profile/user')
+      
      return;
+    }
+    if (loading) {
+      return <Loading/>;
     }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900">Sign Up</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-900">Log In</h2>
         <form>
           <div className="mb-4">
             <label
