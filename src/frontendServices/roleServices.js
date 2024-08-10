@@ -7,7 +7,6 @@ const getRoles = async () =>{
    .then((response) => response.data)
    .catch(error => error.response.data.message);
 
-   console.log(roles);
    return roles
    
 }

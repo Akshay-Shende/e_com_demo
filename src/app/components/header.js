@@ -1,12 +1,13 @@
 'use client'
 import { removeUser } from "@/reducer/slices/loginUserSlice";
 import Cookies from "js-cookie";
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-
+import Link from "next/link";
 const Header = () => {
  const {user} =  useSelector((state) => state.loginUserData)
   const dispatch = useDispatch();
+  const router = useRouter()
 
   const logoutUser = async() =>{
     console.log("in logout function");
@@ -27,12 +28,12 @@ const Header = () => {
         user!=null ? (
             <>
             <li className="px-4"><a href="" className="text-black hover:text-slate-400">{` Hello ${user.firstName} `}  </a></li>
-            <li className="px-4"><a href="" className="text-black hover:text-slate-400" onClick={logoutUser}>Log Out</a></li>
+            <li className="px-4"><a className="text-black hover:text-slate-400" onClick={logoutUser}>Log Out</a></li>
             </>
         ) : (
             <>
-            <li className="px-4"><a href="" className="text-black hover:text-slate-400">Login</a></li>
-            <li className="px-4"><a href="" className="text-black hover:text-slate-400">Sign Up</a></li>
+            <li className="px-4"><Link href={"/login"} className="text-black hover:text-slate-400">Login</Link></li>
+            <li className="px-4"><Link href= {"/signup"} className="text-black hover:text-slate-400">Sign Up</Link></li>
             </>
         )
         }  
