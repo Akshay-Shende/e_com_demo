@@ -1,6 +1,5 @@
 "use client"
 import { loginUser } from '@/frontendServices/userServices'
-import { toast } from "react-toastify";
 import { LoadingContext } from '@/context/LoadingContext';
 import React, { useState, useContext } from 'react'
 import Loading from './loading';
@@ -19,12 +18,12 @@ const LoginPage = () => {
 
     const loginUserData = async() =>{
       setLoading(true)
-      const userData =  await loginUser(login);
+      const userData =  await loginUser(login); 
       setLoading(false)
-
-      dispatch(addUser(userData.user))
-      router.push('/profile/user')
-      
+      if (userData.data.success) {
+        sessionStorage.setItem("user",userData.data.user)
+        router.push('/profile/user')
+       }    
      return;
     }
     if (loading) {

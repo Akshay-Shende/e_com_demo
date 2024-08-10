@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 const Header = () => {
  const {user} =  useSelector((state) => state.loginUserData)
- console.log(user.firstName + "data of state");
  
   return (
    <nav className=" bg-slate-200 py-4 ">

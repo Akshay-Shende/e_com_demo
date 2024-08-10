@@ -39,6 +39,8 @@ console.log(email+" -- "+password)
       message: "Login success !!",
       success: true,
       user: user,
+    }, {
+      status: 200,
     });
 
     response.cookies.set("authToken", token, {
@@ -48,7 +50,7 @@ console.log(email+" -- "+password)
 
     return response;
   } catch (error) {
-    return NextResponse.json(
+      const response = NextResponse.json(
       {
         message: error.message,
         success: false,
@@ -57,5 +59,7 @@ console.log(email+" -- "+password)
         status: 500,
       }
     );
+
+    return response;
   }
 }
