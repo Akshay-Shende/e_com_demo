@@ -21,7 +21,7 @@ const LoginPage = () => {
       const userData =  await loginUser(login); 
       setLoading(false)
       if (userData.data.success) {
-        sessionStorage.setItem("user", JSON.stringify(userData.data.user))
+        dispatch(addUser(userData.data.user))
         router.push('/profile/user')
        }    
      return;

@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const Header = () => {
@@ -13,8 +13,20 @@ const Header = () => {
         <li className="px-4"><a href="" className="text-black hover:text-slate-400">Home</a></li>
         <li className="px-4"><a href="" className="text-black hover:text-slate-400">About Us</a></li>
         <li className="px-4"><a href="" className="text-black hover:text-slate-400">Contact Us</a></li>
-        <li className="px-4"><a href="" className="text-black hover:text-slate-400">Login</a></li>
-      
+       
+        {
+        user!=null ? (
+            <>
+            <li className="px-4"><a href="" className="text-black hover:text-slate-400">{` Hello ${user.firstName} `}  </a></li>
+            <li className="px-4"><a href="" className="text-black hover:text-slate-400">Log Out</a></li>
+            </>
+        ) : (
+            <>
+            <li className="px-4"><a href="" className="text-black hover:text-slate-400">Login</a></li>
+            <li className="px-4"><a href="" className="text-black hover:text-slate-400">Sign Up</a></li>
+            </>
+        )
+        }  
       </ul> 
     </div>
    </nav>
