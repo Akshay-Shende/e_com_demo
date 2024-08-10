@@ -10,12 +10,12 @@ const loginUserSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, action) => {
-      // console.log("data in add User " + JSON.stringify(action.payload));
+       console.log("data in add User " + JSON.stringify(action.payload));
       state.user = action.payload;
     },
-    removeUser: (state, action) => {},
+    removeUser: () =>initialState,
   },
 });
-export const { addUser } = loginUserSlice.actions;
+export const { addUser, removeUser } = loginUserSlice.actions;
 
 export default loginUserSlice.reducer;
