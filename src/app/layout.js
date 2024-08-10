@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { LoadingProvider } from "@/context/LoadingContext";
 import "./globals.css";
 import Layout from "./components/layout";
+import { Providers } from "@/reducer/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,12 +17,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <LoadingProvider>
-          <Layout>
-            <ToastContainer />
-            {children}
-          </Layout>
-        </LoadingProvider>
+        <Providers>
+          <LoadingProvider>
+            <Layout>
+              <ToastContainer />
+              {children}
+            </Layout>
+          </LoadingProvider>
+        </Providers>
       </body>
     </html>
   );

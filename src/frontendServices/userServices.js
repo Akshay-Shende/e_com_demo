@@ -13,8 +13,8 @@ import { httpAxios } from "@/helper/httpHelpers";
  export const loginUser = async (login) =>{
    const userData = await httpAxios
    .post("/api/login",login)
-   .then((response)=> response.data);
-   //.catch((error)=> error);
+   .then((response)=> response.data)
+   .catch((error)=> error);
    
    return userData;
 }

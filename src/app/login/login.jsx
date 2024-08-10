@@ -5,8 +5,11 @@ import { LoadingContext } from '@/context/LoadingContext';
 import React, { useState, useContext } from 'react'
 import Loading from './loading';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { addUser } from '@/reducer/slices/loginUserSlice';
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const router  = useRouter();
   const { loading, setLoading } = useContext(LoadingContext);
     const [login,setLogin] = useState({
@@ -18,6 +21,8 @@ const LoginPage = () => {
       setLoading(true)
       const userData =  await loginUser(login);
       setLoading(false)
+
+      dispatch(addUser(userData.user))
       router.push('/profile/user')
       
      return;
